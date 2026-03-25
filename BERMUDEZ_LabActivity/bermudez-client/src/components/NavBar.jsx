@@ -41,7 +41,7 @@ const NavBar = () => {
             to="/about" 
             className="inline-flex items-center justify-center rounded-full border-2 border-zinc-900 bg-zinc-900 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-50 transition hover:bg-zinc-700 hover:border-zinc-700"
           >
-            Get Started
+            Get to know Pochacco
           </Link>
         </div>
 
