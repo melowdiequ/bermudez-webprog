@@ -1,9 +1,10 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from './components/Layout';
-import FriendsPage from './pages/FriendsPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import ArticleListPage from './pages/ArticleListPage';
+import ArticlePage from './pages/ArticlePage';
+import NotFoundPage from './pages/NotFoundPage';
 
 const routes = [
   {
@@ -11,16 +12,24 @@ const routes = [
     element: <Layout />,
     children: [
       {
-        path: '',
+        path: '/',
         element: <HomePage />,
       },
       {
-        path: 'about',
+        path: '/about',
         element: <AboutPage />,
       },
       {
-        path: 'friends',
-        element: <FriendsPage />,
+        path: '/articles', // THIS MUST BE EXACTLY THIS
+        element: <ArticleListPage />,
+      },
+      {
+        path: '/articles/:name', 
+        element: <ArticlePage />,
+      },
+      {
+        path: '*', 
+        element: <NotFoundPage />,
       },
     ],
   },
@@ -29,11 +38,7 @@ const routes = [
 const router = createBrowserRouter(routes);
 
 function App() {
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
