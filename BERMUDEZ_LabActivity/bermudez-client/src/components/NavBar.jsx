@@ -1,41 +1,83 @@
-import { NavLink, Link } from 'react-router-dom';
-import pochaccoLogo from '../assets/styles/pochacco-logo.png';
-
-const links = [
-  { label: 'Home', to: '/' },
-  { label: 'About', to: '/about' },
-  { label: 'Articles', to: '/articles' }, // Matches App.jsx
-];
-
-const navLinkClassName = ({ isActive }) =>
-  [
-    'rounded-full border-2 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] transition',
-    isActive
-      ? 'border-zinc-900 bg-zinc-900 text-zinc-50'
-      : 'border-transparent text-zinc-500 hover:border-zinc-900 hover:bg-zinc-50 hover:text-zinc-900',
-  ].join(' ');
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import Button from './Button';
+import myLogo from '../assets/styles/pochacco-logo.png';
 
 const NavBar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const userStatus = localStorage.getItem('isLoggedIn') === 'true';
+    setIsLoggedIn(userStatus);
+  }, [location]); 
+
+  const isActive = (path) => {
+    return location.pathname === path 
+      ? "text-[#6da158] font-bold" 
+      : "text-zinc-500 hover:text-zinc-900";
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn'); 
+    setIsLoggedIn(false); 
+    navigate('/'); 
+  };
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-zinc-900 bg-zinc-100/95 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center transition-transform hover:scale-105">
-          <img src={pochaccoLogo} alt="Pochacco Logo" className="h-12 w-auto object-contain" />
+    <nav className="sticky top-0 z-50 w-full border-b-2 border-zinc-200 bg-white/80 backdrop-blur-md px-4 py-4 sm:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between">
+        
+        <Link to="/" className="transition-transform hover:scale-105">
+          <img 
+            src={myLogo} 
+            alt="Website Logo" 
+            className="h-10 w-auto" 
+          />
         </Link>
-        <nav className="hidden items-center gap-2 md:flex">
-          {links.map((link) => (
-            <NavLink key={link.to} to={link.to} end={link.to === '/'} className={navLinkClassName}>
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-        <div className="hidden items-center md:flex">
-          <Link to="/about" className="inline-flex items-center justify-center rounded-full border-2 border-zinc-900 bg-zinc-900 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-50 transition hover:bg-zinc-700">
-            Get to know Pochacco
+
+        <div className="hidden items-center gap-8 md:flex">
+          <Link to="/" className={`text-sm font-semibold tracking-wide transition-colors ${isActive('/')}`}>
+            Home
+          </Link>
+          <Link to="/about" className={`text-sm font-semibold tracking-wide transition-colors ${isActive('/about')}`}>
+            About
+          </Link>
+          <Link to="/articles" className={`text-sm font-semibold tracking-wide transition-colors ${isActive('/articles')}`}>
+            Articles
           </Link>
         </div>
+        {isLoggedIn ? (
+
+          <div className="flex items-center gap-6">
+            <button 
+              onClick={handleLogout}
+              className="text-[11px] font-bold uppercase tracking-widest text-zinc-500 transition-colors hover:text-red-500"
+            >
+              Log Out
+            </button>
+          </div>
+
+        ) : (
+          <div className="flex items-center gap-5">
+            <Link 
+              to="/auth/signin" 
+              className="hidden text-[11px] font-bold uppercase tracking-widest text-zinc-500 transition-colors hover:text-[#6da158] sm:block"
+            >
+              Log In
+            </Link>
+            <Button 
+              to="/auth/signup" 
+              className="rounded-full bg-[#92c57a] px-6 py-2.5 text-[11px] font-bold tracking-widest text-white shadow-[0_4px_10px_rgba(146,197,122,0.3)] transition-all hover:-translate-y-0.5 hover:bg-[#6da158] hover:shadow-[0_6px_15px_rgba(146,197,122,0.4)] border-none"
+            >
+              SIGN UP
+            </Button>
+          </div>
+
+        )}
+        
       </div>
-    </header>
+    </nav>
   );
 };
 

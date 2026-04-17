@@ -1,9 +1,9 @@
-import Button from '../components/Button';
+import Button from '../../components/Button';
 
-import pochaccoHomePage from '../assets/homepage/pochacco-homepage.jpg';
-import pochaccoOnTheMove from '../assets/homepage/pochacco-onthemove.jpg';
-import pochaccoMakingFriends from '../assets/homepage/pochacco-makingfriends.jpg';
-import pochaccoBananaIceCream from '../assets/homepage/pochacco-bananaicecream.jpg';
+import pochaccoHomePage from '../../assets/homepage/pochacco-homepage.jpg';
+import pochaccoOnTheMove from '../../assets/homepage/pochacco-onthemove.jpg';
+import pochaccoMakingFriends from '../../assets/homepage/pochacco-makingfriends.jpg';
+import pochaccoBananaIceCream from '../../assets/homepage/pochacco-bananaicecream.jpg';
 
 const HomePage = () => {
   return (
@@ -130,7 +130,7 @@ const HomePage = () => {
             <p className="mt-3 text-sm leading-6 text-zinc-600">
               With his friendly and curious personality, he is always making new pals wherever he goes.
             </p>
-            <Button to="/friends" className="mt-4" variant="primary">
+            <Button to="/articles" className="mt-4" variant="primary">
               View More
             </Button>
           </article>

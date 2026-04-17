@@ -1,12 +1,12 @@
-import Button from '../components/Button';
+import Button from '../../components/Button';
 
-import pochaccoHomePage from '../assets/homepage/pochacco-homepage.jpg';
-import pochaccoPic1 from '../assets/aboutpage/pochacco-pic1.jpg';
-import pochaccoPic2 from '../assets/aboutpage/pochacco-pic2.jpg';
-import pochaccoPic3 from '../assets/aboutpage/pochacco-pic3.jpg';
-import pochaccoPic4 from '../assets/aboutpage/pochacco-pic4.jpg';
-import pochaccoPic5 from '../assets/aboutpage/pochacco-pic5.jpg';
-import pochaccoPic6 from '../assets/aboutpage/pochacco-pic6.jpg';
+import pochaccoHomePage from '../../assets/homepage/pochacco-homepage.jpg';
+import pochaccoPic1 from '../../assets/aboutpage/pochacco-pic1.jpg';
+import pochaccoPic2 from '../../assets/aboutpage/pochacco-pic2.jpg';
+import pochaccoPic3 from '../../assets/aboutpage/pochacco-pic3.jpg';
+import pochaccoPic4 from '../../assets/aboutpage/pochacco-pic4.jpg';
+import pochaccoPic5 from '../../assets/aboutpage/pochacco-pic5.jpg';
+import pochaccoPic6 from '../../assets/aboutpage/pochacco-pic6.jpg';
 
 const AboutPage = () => {
   return (

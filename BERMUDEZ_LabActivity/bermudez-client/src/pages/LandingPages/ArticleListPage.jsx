@@ -1,15 +1,13 @@
-import Button from '../components/Button';
-import ArticleList from '../components/ArticleList';
-import articles from '../assets/article-content.js';
+import Button from '../../components/Button';
+import ArticleList from '../../components/ArticleList';
+import articles from '../../assets/article-content.js';
 
 const ArticleListPage = () => {
   return (
     <div className="flex w-full flex-col pt-20">
-      
-      {/* 1. THE TOP HEADER SECTION (Yung nawala kanina!) */}
+
       <section className="relative overflow-hidden border-b-2 border-zinc-900 bg-[#fdfbf7] px-4 py-10 sm:px-6 sm:py-16 lg:px-8">
         
-        {/* Subtle aesthetic green glow in the corner */}
         <div className="absolute -top-12 -right-12 h-64 w-64 rounded-full bg-[#92c57a] opacity-20 blur-3xl pointer-events-none"></div>
 
         <div className="relative z-10 mx-auto max-w-7xl">
@@ -30,8 +28,7 @@ const ArticleListPage = () => {
           </div>
         </div>
       </section>
-      
-      {/* 2. THE NEWS GRID SECTION */}
+
       <section className="bg-zinc-50 px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
         <div className="mb-8 mx-auto max-w-7xl">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
