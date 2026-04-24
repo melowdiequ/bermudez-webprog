@@ -51,7 +51,6 @@ const SignUpPage = () => {
           </div>
         </div>
 
-        {/* Enhancement 2: Detailed Address Field */}
         <div>
           <label htmlFor="address" className={labelClasses}>Home Address</label>
           <textarea 
@@ -62,7 +61,6 @@ const SignUpPage = () => {
           ></textarea>
         </div>
 
-        {/* Password Field */}
         <div>
           <label htmlFor="signup-password" className={labelClasses}>Password</label>
           <input id="signup-password" type="password" placeholder="••••••••" className={inputClasses} />
