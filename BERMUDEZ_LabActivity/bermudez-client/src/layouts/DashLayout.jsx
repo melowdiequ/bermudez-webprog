@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate, Navigate } from "react-router-dom";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -26,13 +26,15 @@ import Button from "@mui/material/Button";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import PetsIcon from '@mui/icons-material/Pets';
 import Avatar from '@mui/material/Avatar';
+import { Article as ArticleIcon } from "@mui/icons-material";
 
-const drawerWidth = 260; // Slightly wider for breathing room
+const drawerWidth = 260; 
 
 const dashboardNavItems = [
   { label: "Dashboard", title: "Dashboard", to: "/dashboard", icon: DashboardIcon },
   { label: "Reports", title: "Analytics & Reports", to: "/dashboard/reports", icon: AssessmentIcon },
   { label: "Users", title: "User Management", to: "/dashboard/users", icon: PeopleIcon },
+  { label: "Articles", title: "Articles", to: "/dashboard/articles", icon: ArticleIcon },
 ];
 
 const openedMixin = (theme) => ({
@@ -42,9 +44,9 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  backgroundColor: '#ffffff', // Clean white sidebar
+  backgroundColor: '#ffffff', 
   borderRight: 'none',
-  boxShadow: '4px 0 24px rgba(0,0,0,0.03)', // Soft shadow instead of border
+  boxShadow: '4px 0 24px rgba(0,0,0,0.03)', 
 });
 
 const closedMixin = (theme) => ({
@@ -69,14 +71,13 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-// Customized AppBar for the Pochacco Theme
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  backgroundColor: '#ffffff', // White navbar
-  color: '#1b2e22', // Dark green text
-  boxShadow: '0 4px 20px rgba(0,0,0,0.03)', // Very soft shadow
+  backgroundColor: '#ffffff', 
+  color: '#1b2e22', 
+  boxShadow: '0 4px 20px rgba(0,0,0,0.03)', 
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -116,13 +117,13 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  color: '#6da158', // Green search icon
+  color: '#6da158', 
 }));
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
-  borderRadius: '2rem', // Pill shaped search bar
-  backgroundColor: '#fdfbf7', // Off-white background
+  borderRadius: '2rem', 
+  backgroundColor: '#fdfbf7', 
   border: '2px solid #e8f5e9',
   "&:hover": {
     backgroundColor: '#e8f5e9',
@@ -157,18 +158,38 @@ const DashLayout = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const location = useLocation();
-  const pageTitle = getPageTitle(location.pathname);
   const navigate = useNavigate();
 
   const handleDrawerOpen = () => setOpen(true);
   const handleDrawerClose = () => setOpen(false);
-  const handleLogout = () => navigate("/");
+
+  // 2. Wipe memory and redirect on logout
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/auth/signin");
+  };
+
+  const token = localStorage.getItem('token');
+  const userRole = localStorage.getItem('type') || 'viewer';
+
+  // 3. THE BOUNCER: Kick out if no token
+  if (!token) {
+    return <Navigate to="/auth/signin" replace />;
+  }
+
+  const visibleNavItems = dashboardNavItems.filter(item => {
+    if (item.label === "Users" && userRole === "editor") {
+      return false;
+    }
+    return true;
+  });
+
+  const pageTitle = getPageTitle(location.pathname);
 
   return (
     <Box sx={{ display: "flex", backgroundColor: '#fdfbf7', minHeight: '100vh' }}>
       <CssBaseline />
       
-      {/* --- TOP APP BAR --- */}
       <AppBar position="fixed" open={open} elevation={0}>
         <Toolbar sx={{ minHeight: '72px !important' }}>
           <IconButton
@@ -202,10 +223,8 @@ const DashLayout = () => {
         </Toolbar>
       </AppBar>
 
-      {/* --- SIDE NAVIGATION DRAWER --- */}
       <Drawer variant="permanent" open={open}>
         
-        {/* Logo Header Area */}
         <DrawerHeader sx={{ display: 'flex', justifyContent: open ? 'space-between' : 'center', px: 2, minHeight: '72px !important' }}>
           {open && (
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, flexGrow: 1, pl: 1 }}>
@@ -224,9 +243,9 @@ const DashLayout = () => {
         
         <Divider sx={{ borderColor: '#f4f4f5', mb: 2 }} />
         
-        {/* Nav Links */}
+        {/* 4. Using visibleNavItems so the Users tab actually hides for editors! */}
         <List sx={{ px: open ? 2 : 1 }}>
-          {dashboardNavItems.map(({ label, to, icon: Icon }) => {
+          {visibleNavItems.map(({ label, to, icon: Icon }) => {
             const isSelected = location.pathname === to;
             
             return (
@@ -239,7 +258,7 @@ const DashLayout = () => {
                     minHeight: 48,
                     justifyContent: open ? "initial" : "center",
                     px: 2.5,
-                    borderRadius: '1rem', // Pill shaped hover/active states
+                    borderRadius: '1rem', 
                     color: isSelected ? '#1b2e22' : '#71717a',
                     backgroundColor: isSelected ? '#e8f5e9' : 'transparent',
                     transition: 'all 0.2s',
@@ -277,9 +296,7 @@ const DashLayout = () => {
         </List>
       </Drawer>
 
-      {/* --- MAIN CONTENT WRAPPER --- */}
       <Box component="main" sx={{ flexGrow: 1, p: 3, pt: 10, maxWidth: '100vw', overflowX: 'hidden' }}>
-        {/* We keep pt: 10 to ensure content isn't hidden under the fixed app bar */}
         <Outlet />
       </Box>
     </Box>
