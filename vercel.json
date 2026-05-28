@@ -2,7 +2,7 @@
   "version": 2,
   "buildCommand": "npm run build --prefix BERMUDEZ_LabActivity/bermudez-client",
   "outputDirectory": "BERMUDEZ_LabActivity/bermudez-client/dist",
-  "installCommand": "npm install --prefix BERMUDEZ_LabActivity/bermudez-client && npm install --prefix BERMUDEZ_LabActivity/bermudez-server",
+  "installCommand": "npm install --include=dev --prefix BERMUDEZ_LabActivity/bermudez-client && npm install --prefix BERMUDEZ_LabActivity/bermudez-server",
   "rewrites": [
     {
       "source": "/api/(.*)",
