@@ -3,13 +3,7 @@
   "buildCommand": "npm run build --prefix BERMUDEZ_LabActivity/bermudez-client",
   "outputDirectory": "BERMUDEZ_LabActivity/bermudez-client/dist",
   "installCommand": "npm install --prefix BERMUDEZ_LabActivity/bermudez-client && npm install --prefix BERMUDEZ_LabActivity/bermudez-server",
-  "env": [
-    "VITE_API_URL",
-    "MONGO_URI",
-    "JWT_SECRET",
-    "CORS_ORIGIN",
-    "NODE_ENV"
-  ],
+  
   "functions": {
     "api/**/*.js": {
       "runtime": "nodejs20.x",
