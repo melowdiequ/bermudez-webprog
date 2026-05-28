@@ -3,30 +3,14 @@
   "buildCommand": "npm run build --prefix BERMUDEZ_LabActivity/bermudez-client",
   "outputDirectory": "BERMUDEZ_LabActivity/bermudez-client/dist",
   "installCommand": "npm install --prefix BERMUDEZ_LabActivity/bermudez-client && npm install --prefix BERMUDEZ_LabActivity/bermudez-server",
-  
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs20.x",
-      "memory": 1024,
-      "maxDuration": 60
-    }
-  },
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/api"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api",
-      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
     },
     {
-      "src": "/(.*)",
-      "dest": "/index.html",
-      "status": 200
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ],
   "headers": [
