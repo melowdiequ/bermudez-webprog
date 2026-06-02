@@ -4,6 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const articleRoutes = require("./routes/articleRoutes");
 
 const app = express();
 connectDB();
@@ -13,15 +14,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: "*", 
-  credentials: true, 
+  origin: "*",
+  credentials: true,
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
   methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
-  optionsSuccessStatus: 204, 
+  optionsSuccessStatus: 204,
 };
+
 app.use(cors(corsOptions));
 
 app.use("/api/users", userRoutes);
+app.use("/api/articles", articleRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
