@@ -16,7 +16,12 @@ const ArticleListPage = () => {
         }
 
         const data = await response.json();
-        setArticles(data);
+
+        const publishedArticles = data.filter(
+          (article) => article.isPublished !== false
+        );
+
+        setArticles(publishedArticles);
       } catch (error) {
         console.error("Error fetching articles:", error);
       }
