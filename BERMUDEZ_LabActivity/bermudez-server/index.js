@@ -1,6 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const cors = require("cors");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
@@ -13,20 +12,33 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const corsOptions = {
-  origin: [
+// Manual CORS Middleware for Vercel Serverless
+app.use((req, res, next) => {
+  const allowedOrigins = [
     "http://localhost:5173",
     "https://bermudez-webprog.vercel.app",
-    "https://bermudez-webprog-git-lab-act7-melowdiequs-projects.vercel.app"
-  ],
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With"],
-  methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE", "OPTIONS"],
-  optionsSuccessStatus: 204,
-};
+    "https://bermudez-webprog-git-lab-act7-melowdiequs-projects.vercel.app",
+  ];
+  const origin = req.headers.origin;
+  
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, PATCH, DELETE, POST, PUT");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+  );
 
-app.use(cors(corsOptions));
-app.options(/.*/, cors(corsOptions));
+  // Instantly resolve preflight requests
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+  
+  next();
+});
 
 app.use("/api/users", userRoutes);
 app.use("/api/articles", articleRoutes);
